@@ -26,6 +26,29 @@
             camera = null,
             drive = false,
             carContainer = null;
+
+            function onLoad() {
+                const container = document.getElementByID('container');
+                const width = container.clientWidth, height = container.clientHeight;
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize( width, height );
+                renderer.setClearColor(0x87CEFF);
+                container.appendChild(renderer.domElement);
+
+                camera = new THREE.PerspectiveCamera(45, width / height, 1, 300);
+                camera.position.z = 80;
+                camera.position.y = 10;
+
+                const light = new THREE.DirectionalLight( 0xFFFFFF, 1.5 );
+                light.position.set(-0.5, 0, 1);
+
+                const groundGeometry = new THREE.PlaneGeometry( 500, 500 );
+                const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x004D00 });
+                const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+                groundMesh.rotation.x = deg2rad(-90);
+                groundMesh.position.y = -2.01;
+
+            }
         </script>
 
     </body>
