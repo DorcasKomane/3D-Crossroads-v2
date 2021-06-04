@@ -487,7 +487,9 @@
                 const building = new THREE.Object3D();
 
                 const build1Geometry = new THREE.BoxGeometry(5, 20, 10);
-                const build1Material = new THREE.MeshLambertMaterial({ color: 0x663300 });
+                //const build1Material = new THREE.MeshLambertMaterial({ color: 0x663300 });
+                const build1Texture = new THREE.TextureLoader().load('textures/brickwall-texture.jpg');
+                const build1Material = new THREE.MeshBasicMaterial({ map: build1Texture });
                 const build1Mesh = new THREE.Mesh(build1Geometry, build1Material);
                 build1Mesh.position.set(20, 5, 40);
 
