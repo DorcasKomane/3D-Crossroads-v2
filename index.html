@@ -3,20 +3,20 @@
     <head>
         <title>3D Road Intersection</title>
         <style>
-            *{ box-sizing: border-box }
+            * { box-sizing: border-box }
             html { width: 100%; height: 100%; padding: 0; margin: 0; }
             body { width: 100%; height: 100%; padding: 20px; margin: 0; }
             #container { width: 100%; height: calc(100% - 50px) }
-            #driveButton { height: 40px; width: 30%; float: left; margin: 10px 0 0; background-color: orange; color: black; }
-            #sldrZOOM-IN { height: 40px; width: 30px; float: left; margin: 10px 0 0 1%; }
+            #driveButton { height: 40px; width: 30%; float: left; margin: 10px 0 0; background-color: orange; color: black }
+            #sldrZOOM-IN { height: 40px; width: 30%; float: left; margin: 10px 0 0 1%; }
             #sldrZOOM-OUT { height: 40px; width: 30%; float: left; margin: 10px 0 0 1%; }
         </style>
     </head>
     <body onLoad="onLoad()">
         <div id="container"></div>
         <button id="driveButton" type="button">Drive</button>
-        <input id="sldrZOOM-IN" type="range" in="0.1" max="1" step="0.1" value="0.5">
-        <input id="sldrZOOM-OUT" type="range" in="0.1" max="1" step="0.1" value="0.5">
+        <input id="sldrZOOM-IN" type="range" min="0.1" max="1" step="0.1" value="0.5" />
+        <input id="sldrZOOM-OUT" type="range" min="0.1" max="1" step="0.1" value="0.5" />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js" integrity="sha512-U4J4PbEJ2TMjFqPUSiKq7LLTHuEkPZVo0jl2fomi9pT7UAExh4xVi8KmoR7EfmyigH95aA68zpW7y3XzuoSurQ==" crossorigin="anonymous"></script>
         <script src="/js/OrbitControls.js"></script>
@@ -27,29 +27,881 @@
             drive = false,
             carContainer = null;
 
+            function buildCar(){
+
+                const car = new THREE.Object3D();
+
+                const frontwheelGeometry = new THREE.CylinderGeometry( 1, 1, 5, 32);
+                const frontwheelMaterial = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const frontwheelMesh = new THREE.Mesh(frontwheelGeometry, frontwheelMaterial);
+                frontwheelMesh.position.set(-4, -1, 37);
+                frontwheelMesh.rotation.x = deg2rad(90);
+                frontwheelMesh.rotation.z = deg2rad(90);
+
+                const backwheelGeometry = new THREE.CylinderGeometry( 1, 1, 5, 32);
+                const backwheelMaterial = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const backwheelMesh = new THREE.Mesh(backwheelGeometry, backwheelMaterial);
+                backwheelMesh.position.set(-4, -1, 44);
+                backwheelMesh.rotation.x = deg2rad(90);
+                backwheelMesh.rotation.z = deg2rad(90);
+
+                const carbottomGeometry = new THREE.BoxGeometry(4, 3, 12);
+                const carbottomMaterial = new THREE.MeshBasicMaterial({ color: 0x960000});
+                const carbottomMesh = new THREE.Mesh(carbottomGeometry, carbottomMaterial);
+                carbottomMesh.position.set(-4, 0, 40);
+
+                const cartopGeometry = new THREE.BoxGeometry(3, 2, 8);
+                const cartopMaterial = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const cartopMesh = new THREE.Mesh(cartopGeometry, cartopMaterial);
+                cartopMesh.position.set(-4, 2.5, 40);
+
+                const frontwin1Geometry = new THREE.BoxGeometry(2, 2, 0.5);
+                const frontwin1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const frontwin1Mesh = new THREE.Mesh(frontwin1Geometry, frontwin1Material);
+                frontwin1Mesh.position.set(-4, 2, 36.05);
+
+                const backwin1Geometry = new THREE.BoxGeometry(2, 2, 0.5);
+                const backwin1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const backwin1Mesh = new THREE.Mesh(backwin1Geometry, backwin1Material);
+                backwin1Mesh.position.set(-4, 2, 43.8);
+
+                const sidewin1Geometry = new THREE.BoxGeometry(0.5, 2, 2.6);
+                const sidewin1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const sidewin1Mesh = new THREE.Mesh(sidewin1Geometry, sidewin1Material);
+                sidewin1Mesh.position.set(-2.7, 2, 42);
+
+                const sidewin3Geometry = new THREE.BoxGeometry(0.5, 2, 2.6);
+                const sidewin3Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const sidewin3Mesh = new THREE.Mesh(sidewin3Geometry, sidewin3Material);
+                sidewin3Mesh.position.set(-2.7, 2, 38);
+
+                const sidewin2Geometry = new THREE.BoxGeometry(0.5, 2, 2.6);
+                const sidewin2Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const sidewin2Mesh = new THREE.Mesh(sidewin2Geometry, sidewin2Material);
+                sidewin2Mesh.position.set(-5.3, 2, 42);
+
+                const sidewin4Geometry = new THREE.BoxGeometry(0.5, 2, 2.6);
+                const sidewin4Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const sidewin4Mesh = new THREE.Mesh(sidewin4Geometry, sidewin4Material);
+                sidewin4Mesh.position.set(-5.3, 2, 38);
+
+                const frontlightcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const frontlightcover1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const frontlightcover1Mesh = new THREE.Mesh(frontlightcover1Geometry, frontlightcover1Material);
+                frontlightcover1Mesh.position.set(-3, 0, 33.9);
+                frontlightcover1Mesh.rotation.y = deg2rad(180);
+
+                const frontlight1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const frontlight1Material = new THREE.MeshBasicMaterial({ color: 0xFBFBF8 });
+                const frontlight1Mesh = new THREE.Mesh(frontlight1Geometry, frontlight1Material);
+                frontlight1Mesh.position.set(-3, 0, 33.8);
+                frontlight1Mesh.rotation.y = deg2rad(180);
+
+                const frontlightcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const frontlightcover2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const frontlightcover2Mesh = new THREE.Mesh(frontlightcover2Geometry, frontlightcover2Material);
+                frontlightcover2Mesh.position.set(-5, 0, 33.9);
+                frontlightcover2Mesh.rotation.y = deg2rad(180);
+
+                const frontlight2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const frontlight2Material = new THREE.MeshBasicMaterial({ color: 0xFBFBF8 });
+                const frontlight2Mesh = new THREE.Mesh(frontlight2Geometry, frontlight2Material);
+                frontlight2Mesh.position.set(-5, 0, 33.8);
+                frontlight2Mesh.rotation.y = deg2rad(180);
+
+                const carbacklightcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const carbacklightcover1Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const carbacklightcover1Mesh = new THREE.Mesh(carbacklightcover1Geometry, carbacklightcover1Material);
+                carbacklightcover1Mesh.position.set(-5, 0, 46.1);
+
+                const carbacklight1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const carbacklight1Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const carbacklight1Mesh = new THREE.Mesh(carbacklight1Geometry, carbacklight1Material);
+                carbacklight1Mesh.position.set(-5, 0, 46.2);
+
+                const carbacklightcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const carbacklightcover2Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const carbacklightcover2Mesh = new THREE.Mesh(carbacklightcover2Geometry, carbacklightcover2Material);
+                carbacklightcover2Mesh.position.set(-2.9, 0, 46.1);
+
+                const carbacklight2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const carbacklight2Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const carbacklight2Mesh = new THREE.Mesh(carbacklight2Geometry, carbacklight2Material);
+                carbacklight2Mesh.position.set(-2.9, 0, 46.2);
+
+                car.add(frontwheelMesh);
+                car.add(backwheelMesh);
+                car.add(carbottomMesh);
+                car.add(cartopMesh);
+                car.add(frontlightcover1Mesh);
+                car.add(frontlight1Mesh);
+                car.add(frontlightcover2Mesh);
+                car.add(frontlight2Mesh);
+                car.add(backwin1Mesh);
+                car.add(frontwin1Mesh);
+                car.add(sidewin1Mesh);
+                car.add(sidewin2Mesh);
+                car.add(sidewin3Mesh);
+                car.add(sidewin4Mesh);
+                car.add(carbacklightcover1Mesh);
+                car.add(carbacklight1Mesh);
+                car.add(carbacklightcover2Mesh);
+                car.add(carbacklight2Mesh);
+
+                return car;
+            }
+
+            function buildBus() {
+
+                const bus = new THREE.Object3D();
+
+                const busGeometry = new THREE.BoxGeometry(4, 8, 25);
+                const busMaterial = new THREE.MeshBasicMaterial({ color: 0xFFA500});
+                const busMesh = new THREE.Mesh(busGeometry, busMaterial);
+                busMesh.position.set(4, 3, -23);
+
+                const busfrontwheel1Geometry = new THREE.CylinderGeometry( 2, 2, 5, 32);
+                const busfrontwheel1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busfrontwheel1Mesh = new THREE.Mesh(busfrontwheel1Geometry, busfrontwheel1Material);
+                busfrontwheel1Mesh.position.set(4, 0, -15);
+                busfrontwheel1Mesh.rotation.x = deg2rad(90);
+                busfrontwheel1Mesh.rotation.z = deg2rad(90);
+
+                const busbackwheel1Geometry = new THREE.CylinderGeometry( 2, 2, 5, 32);
+                const busbackwheel1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busbackwheel1Mesh = new THREE.Mesh(busbackwheel1Geometry, busbackwheel1Material);
+                busbackwheel1Mesh.position.set(4, 0, -25);
+                busbackwheel1Mesh.rotation.x = deg2rad(90);
+                busbackwheel1Mesh.rotation.z = deg2rad(90);
+
+                const busbackwheel2Geometry = new THREE.CylinderGeometry( 2, 2, 5, 32);
+                const busbackwheel2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busbackwheel2Mesh = new THREE.Mesh(busbackwheel2Geometry, busbackwheel2Material);
+                busbackwheel2Mesh.position.set(4, 0, -30);
+                busbackwheel2Mesh.rotation.x = deg2rad(90);
+                busbackwheel2Mesh.rotation.z = deg2rad(90);
+
+                const busfrontwincoverGeometry = new THREE.BoxGeometry(4.2, 3.5, 2);
+                const busfrontwincoverMaterial = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const busfrontwincoverMesh = new THREE.Mesh(busfrontwincoverGeometry, busfrontwincoverMaterial);
+                busfrontwincoverMesh.position.set(4, 4.7, -11.3);
+
+                const busfrontwinGeometry = new THREE.BoxGeometry(4.3, 3.3, 2);
+                const busfrontwinMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busfrontwinMesh = new THREE.Mesh(busfrontwinGeometry, busfrontwinMaterial);
+                busfrontwinMesh.position.set(4, 4.7, -11.2);
+
+                const busfrontlightleftcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busfrontlightleftcover1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busfrontlightleftcover1Mesh = new THREE.Mesh(busfrontlightleftcover1Geometry, busfrontlightleftcover1Material);
+                busfrontlightleftcover1Mesh.position.set(3, 1.5, -10.4);
+
+                const busfrontlightleft1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busfrontlightleft1Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const busfrontlightleft1Mesh = new THREE.Mesh(busfrontlightleft1Geometry, busfrontlightleft1Material);
+                busfrontlightleft1Mesh.position.set(3, 1.5, -10.2);
+
+                const busfrontlightleftcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busfrontlightleftcover2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busfrontlightleftcover2Mesh = new THREE.Mesh(busfrontlightleftcover2Geometry, busfrontlightleftcover2Material);
+                busfrontlightleftcover2Mesh.position.set(3, 0.1, -10.4);
+            
+                const busfrontlightleft2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busfrontlightleft2Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const busfrontlightleft2Mesh = new THREE.Mesh(busfrontlightleft2Geometry, busfrontlightleft2Material);
+                busfrontlightleft2Mesh.position.set(3, 0.1, -10.2);
+
+                const busfrontlightrightcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busfrontlightrightcover1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busfrontlightrightcover1Mesh = new THREE.Mesh(busfrontlightrightcover1Geometry, busfrontlightrightcover1Material);
+                busfrontlightrightcover1Mesh.position.set(5, 1.5, -10.4);
+
+                const busfrontlightright1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busfrontlightright1Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const busfrontlightright1Mesh = new THREE.Mesh(busfrontlightright1Geometry, busfrontlightright1Material);
+                busfrontlightright1Mesh.position.set(5, 1.5, -10.2);
+
+                const busfrontlightrightcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busfrontlightrightcover2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const busfrontlightrightcover2Mesh = new THREE.Mesh(busfrontlightrightcover2Geometry, busfrontlightrightcover2Material);
+                busfrontlightrightcover2Mesh.position.set(5, 0.1, -10.4);
+
+                const busfrontlightright2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busfrontlightright2Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const busfrontlightright2Mesh = new THREE.Mesh(busfrontlightright2Geometry, busfrontlightright2Material);
+                busfrontlightright2Mesh.position.set(5, 0.1, -10.2);
+
+                const busleftwin1Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busleftwin1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busleftwin1Mesh = new THREE.Mesh(busleftwin1Geometry, busleftwin1Material);
+                busleftwin1Mesh.position.set(2.4, 4.7, -16.25);
+                
+                const busleftwin2Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busleftwin2Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busleftwin2Mesh = new THREE.Mesh(busleftwin2Geometry, busleftwin2Material);
+                busleftwin2Mesh.position.set(2.4, 4.7, -21.5);
+
+                const busleftwin3Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busleftwin3Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busleftwin3Mesh = new THREE.Mesh(busleftwin3Geometry, busleftwin3Material);
+                busleftwin3Mesh.position.set(2.4, 4.7, -26.75);
+
+                const busleftwin4Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busleftwin4Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busleftwin4Mesh = new THREE.Mesh(busleftwin4Geometry, busleftwin4Material);
+                busleftwin4Mesh.position.set(2.4, 4.7, -32);
+
+                const busrightwin1Geometry = new THREE.BoxGeometry(1, 3.5, 2);
+                const busrightwin1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busrightwin1Mesh = new THREE.Mesh(busrightwin1Geometry, busrightwin1Material);
+                busrightwin1Mesh.position.set(5.6, 4.7, -15);
+            
+                const busrightwin2Geometry = new THREE.BoxGeometry(1, 5.5, 3);
+                const busrightwin2Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busrightwin2Mesh = new THREE.Mesh(busrightwin2Geometry, busrightwin2Material);
+                busrightwin2Mesh.position.set(5.6, 2, -20);
+
+                const busrightwin3Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busrightwin3Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busrightwin3Mesh = new THREE.Mesh(busrightwin3Geometry, busrightwin3Material);
+                busrightwin3Mesh.position.set(5.6, 4.7, -26.75);
+
+                const busrightwin4Geometry = new THREE.BoxGeometry(1, 3.5, 4);
+                const busrightwin4Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const busrightwin4Mesh = new THREE.Mesh(busrightwin4Geometry, busrightwin4Material);
+                busrightwin4Mesh.position.set(5.6, 4.7, -32);
+                
+                const busbacklightcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busbacklightcover1Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const busbacklightcover1Mesh = new THREE.Mesh(busbacklightcover1Geometry, busbacklightcover1Material);
+                busbacklightcover1Mesh.position.set(5.2, 1.5, -35.6);
+                busbacklightcover1Mesh.rotation.y = deg2rad(180);
+
+                const busbacklight1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busbacklight1Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const busbacklight1Mesh = new THREE.Mesh(busbacklight1Geometry, busbacklight1Material);
+                busbacklight1Mesh.position.set(5.2, 1.5, -35.7);
+                busbacklight1Mesh.rotation.y = deg2rad(180);
+
+                const busbacklightcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busbacklightcover2Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const busbacklightcover2Mesh = new THREE.Mesh(busbacklightcover2Geometry, busbacklightcover2Material);
+                busbacklightcover2Mesh.position.set(5.2, 0.2, -35.6);
+                busbacklightcover2Mesh.rotation.y = deg2rad(180);
+
+                const busbacklight2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busbacklight2Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const busbacklight2Mesh = new THREE.Mesh(busbacklight2Geometry, busbacklight2Material);
+                busbacklight2Mesh.position.set(5.2, 0.2, -35.7);
+                busbacklight2Mesh.rotation.y = deg2rad(180);
+
+                const busbacklightcover3Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busbacklightcover3Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const busbacklightcover3Mesh = new THREE.Mesh(busbacklightcover3Geometry, busbacklightcover3Material);
+                busbacklightcover3Mesh.position.set(2.8, 1.5, -35.6);
+                busbacklightcover3Mesh.rotation.y = deg2rad(180);
+
+                const busbacklight3Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busbacklight3Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const busbacklight3Mesh = new THREE.Mesh(busbacklight3Geometry, busbacklight3Material);
+                busbacklight3Mesh.position.set(2.8, 1.5, -35.7);
+                busbacklight3Mesh.rotation.y = deg2rad(180);
+
+                const busbacklightcover4Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const busbacklightcover4Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const busbacklightcover4Mesh = new THREE.Mesh(busbacklightcover4Geometry, busbacklightcover4Material);
+                busbacklightcover4Mesh.position.set(2.8, 0.2, -35.6);
+                busbacklightcover4Mesh.rotation.y = deg2rad(180);
+
+                const busbacklight4Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const busbacklight4Material = new THREE.MeshBasicMaterial({ color: 0x960000 });
+                const busbacklight4Mesh = new THREE.Mesh(busbacklight4Geometry, busbacklight4Material);
+                busbacklight4Mesh.position.set(2.8, 0.2, -35.7);
+                busbacklight4Mesh.rotation.y = deg2rad(180);
+
+                bus.add(busMesh);
+                bus.add(busfrontwheel1Mesh);
+                bus.add(busbackwheel1Mesh);
+                bus.add(busbackwheel2Mesh);
+                bus.add(busfrontwincoverMesh);
+                bus.add(busfrontwinMesh);
+                bus.add(busfrontlightleftcover1Mesh);
+                bus.add(busfrontlightleft1Mesh);
+                bus.add(busfrontlightleftcover2Mesh);
+                bus.add(busfrontlightleft2Mesh);
+                bus.add(busfrontlightrightcover1Mesh);
+                bus.add(busfrontlightright1Mesh);
+                bus.add(busfrontlightrightcover2Mesh);
+                bus.add(busfrontlightright2Mesh);
+                bus.add(busleftwin1Mesh);
+                bus.add(busleftwin2Mesh);
+                bus.add(busleftwin3Mesh);
+                bus.add(busleftwin4Mesh);
+                bus.add(busrightwin1Mesh);
+                bus.add(busrightwin2Mesh);
+                bus.add(busrightwin3Mesh);
+                bus.add(busrightwin4Mesh);
+                bus.add(busbacklightcover1Mesh);
+                bus.add(busbacklight1Mesh);
+                bus.add(busbacklightcover2Mesh);
+                bus.add(busbacklight2Mesh);
+                bus.add(busbacklightcover3Mesh);
+                bus.add(busbacklight3Mesh);
+                bus.add(busbacklightcover4Mesh);
+                bus.add(busbacklight4Mesh);
+                
+                return bus;
+            }
+
+            function buildTruck(){
+                const truck = new THREE.Object3D();
+
+                const truckTrailerGeometry = new THREE.BoxGeometry(16, 7, 4);
+                const truckTrailerMaterial = new THREE.MeshBasicMaterial({ color: 0x03254C});
+                const truckTrailerMesh = new THREE.Mesh(truckTrailerGeometry, truckTrailerMaterial);
+                truckTrailerMesh.position.set(-42, 2, -3);
+
+                const trailerwheel1Geometry = new THREE.CylinderGeometry( 1.5, 1.5, 5, 32);
+                const trailerwheel1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const trailerwheel1Mesh = new THREE.Mesh(trailerwheel1Geometry, trailerwheel1Material);
+                trailerwheel1Mesh.position.set(-46, -0.5, -3);
+                trailerwheel1Mesh.rotation.x = deg2rad(90);
+
+                const trailerwheel2Geometry = new THREE.CylinderGeometry( 1.5, 1.5, 5, 32);
+                const trailerwheel2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const trailerwheel2Mesh = new THREE.Mesh(trailerwheel2Geometry, trailerwheel2Material);
+                trailerwheel2Mesh.position.set(-37, -0.5, -3);
+                trailerwheel2Mesh.rotation.x = deg2rad(90);                
+                
+                const truckfrontGeometry = new THREE.BoxGeometry(5, 5, 4);
+                const truckfrontMaterial = new THREE.MeshBasicMaterial({ color: 0xFFD1DC});
+                const truckfrontMesh = new THREE.Mesh(truckfrontGeometry, truckfrontMaterial);
+                truckfrontMesh.position.set(-31.5, 1, -3);
+
+                const truckwindowGeometry = new THREE.BoxGeometry(1.2, 2, 4.5);
+                const truckwindowMaterial = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const truckwindowMesh = new THREE.Mesh(truckwindowGeometry, truckwindowMaterial);
+                truckwindowMesh.position.set(-29.5, 2, -3);
+
+                const truckfrontwheelGeometry = new THREE.CylinderGeometry( 1.5, 1.5, 5, 32);
+                const truckfrontwheelMaterial = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const truckfrontwheelMesh = new THREE.Mesh(truckfrontwheelGeometry, truckfrontwheelMaterial);
+                truckfrontwheelMesh.position.set(-31, -0.5, -3);
+                truckfrontwheelMesh.rotation.x = deg2rad(90); 
+
+                const truckfrontcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckfrontcover1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const truckfrontcover1Mesh = new THREE.Mesh(truckfrontcover1Geometry, truckfrontcover1Material);
+                truckfrontcover1Mesh.position.set(-28.7, -0.5, -2);
+                truckfrontcover1Mesh.rotation.y = deg2rad(90);
+
+                const truckfrontlight1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckfrontlight1Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const truckfrontlight1Mesh = new THREE.Mesh(truckfrontlight1Geometry, truckfrontlight1Material);
+                truckfrontlight1Mesh.position.set(-28.6, -0.5, -2);
+                truckfrontlight1Mesh.rotation.y = deg2rad(90);
+
+                const truckfrontcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckfrontcover2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F });
+                const truckfrontcover2Mesh = new THREE.Mesh(truckfrontcover2Geometry, truckfrontcover2Material);
+                truckfrontcover2Mesh.position.set(-28.7, -0.5, -4);
+                truckfrontcover2Mesh.rotation.y = deg2rad(90);
+
+                const truckfrontlight2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckfrontlight2Material = new THREE.MeshBasicMaterial({ color: 0xF3EBE1 });
+                const truckfrontlight2Mesh = new THREE.Mesh(truckfrontlight2Geometry, truckfrontlight2Material);
+                truckfrontlight2Mesh.position.set(-28.6, -0.5, -4);
+                truckfrontlight2Mesh.rotation.y = deg2rad(90);                
+
+                const truckbacklightcover1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckbacklightcover1Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const truckbacklightcover1Mesh = new THREE.Mesh(truckbacklightcover1Geometry, truckbacklightcover1Material);
+                truckbacklightcover1Mesh.position.set(-50.1, 1, -4.2);
+                truckbacklightcover1Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklight1Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckbacklight1Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const truckbacklight1Mesh = new THREE.Mesh(truckbacklight1Geometry, truckbacklight1Material);
+                truckbacklight1Mesh.position.set(-50.2, 1, -4.2);
+                truckbacklight1Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklightcover2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckbacklightcover2Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const truckbacklightcover2Mesh = new THREE.Mesh(truckbacklightcover2Geometry, truckbacklightcover2Material);
+                truckbacklightcover2Mesh.position.set(-50.1, -0.3, -4.2);
+                truckbacklightcover2Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklight2Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckbacklight2Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const truckbacklight2Mesh = new THREE.Mesh(truckbacklight2Geometry, truckbacklight2Material);
+                truckbacklight2Mesh.position.set(-50.2, -0.3, -4.2);
+                truckbacklight2Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklightcover3Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckbacklightcover3Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const truckbacklightcover3Mesh = new THREE.Mesh(truckbacklightcover3Geometry, truckbacklightcover3Material);
+                truckbacklightcover3Mesh.position.set(-50.1, 1, -1.8);
+                truckbacklightcover3Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklight3Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckbacklight3Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const truckbacklight3Mesh = new THREE.Mesh(truckbacklight3Geometry, truckbacklight3Material);
+                truckbacklight3Mesh.position.set(-50.2, 1, -1.8);
+                truckbacklight3Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklightcover4Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const truckbacklightcover4Material = new THREE.MeshBasicMaterial({ color: 0xC0C0C0 });
+                const truckbacklightcover4Mesh = new THREE.Mesh(truckbacklightcover4Geometry, truckbacklightcover4Material);
+                truckbacklightcover4Mesh.position.set(-50.1, -0.3, -1.8);
+                truckbacklightcover4Mesh.rotation.y = deg2rad(-90);
+
+                const truckbacklight4Geometry = new THREE.CircleGeometry( 0.4, 32);
+                const truckbacklight4Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const truckbacklight4Mesh = new THREE.Mesh(truckbacklight4Geometry, truckbacklight4Material);
+                truckbacklight4Mesh.position.set(-50.2, -0.3, -1.8);
+                truckbacklight4Mesh.rotation.y = deg2rad(-90);
+            
+                truck.add(truckTrailerMesh);
+                truck.add(trailerwheel1Mesh);
+                truck.add(trailerwheel2Mesh);
+                truck.add(truckfrontMesh);
+                truck.add(truckfrontwheelMesh);
+                truck.add(truckwindowMesh);
+                truck.add(truckfrontcover1Mesh);
+                truck.add(truckfrontcover2Mesh);
+                truck.add(truckfrontlight1Mesh);
+                truck.add(truckfrontlight2Mesh);
+                truck.add(truckbacklightcover1Mesh);
+                truck.add(truckbacklight1Mesh);
+                truck.add(truckbacklightcover2Mesh);
+                truck.add(truckbacklight2Mesh);
+                truck.add(truckbacklightcover3Mesh);
+                truck.add(truckbacklight3Mesh);
+                truck.add(truckbacklightcover4Mesh);
+                truck.add(truckbacklight4Mesh);
+                
+                return truck;
+            }
+
+            function createBuilding() {
+                const building = new THREE.Object3D();
+
+                const build1Geometry = new THREE.BoxGeometry(5, 20, 10);
+                const build1Material = new THREE.MeshBasicMaterial({ color: 0x663300 });
+                const build1Mesh = new THREE.Mesh(build1Geometry, build1Material);
+                build1Mesh.position.set(20, 5, 40);
+
+                const roof1Geometry = new THREE.BoxGeometry(5.5, 1, 11.5);
+                const roof1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const roof1Mesh = new THREE.Mesh(roof1Geometry, roof1Material);
+                roof1Mesh.position.set(20, 15, 40);
+
+                const winsill1Geometry = new THREE.BoxGeometry(1, 0.6, 3.5);
+                const winsill1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const winsill1Mesh = new THREE.Mesh(winsill1Geometry, winsill1Material);
+                winsill1Mesh.position.set(17.4, 9, 38);
+
+                const winsill2Geometry = new THREE.BoxGeometry(1, 0.6, 3.5);
+                const winsill2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const winsill2Mesh = new THREE.Mesh(winsill2Geometry, winsill2Material);
+                winsill2Mesh.position.set(17.4, 9, 42);
+
+                const winsill3Geometry = new THREE.BoxGeometry(1, 0.6, 3.5);
+                const winsill3Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const winsill3Mesh = new THREE.Mesh(winsill3Geometry, winsill3Material);
+                winsill3Mesh.position.set(17.4, 3.8, 38); 
+                
+                const winsill4Geometry = new THREE.BoxGeometry(1, 0.6, 3.5);
+                const winsill4Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const winsill4Mesh = new THREE.Mesh(winsill4Geometry, winsill4Material);
+                winsill4Mesh.position.set(17.4, 3.8, 42);
+
+                const build1Win1Geometry = new THREE.BoxGeometry(0, 4, 3);
+                const build1Win1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const build1Win1Mesh = new THREE.Mesh(build1Win1Geometry, build1Win1Material);
+                build1Win1Mesh.position.set(17.4, 11, 38);
+
+                const build1Win2Geometry = new THREE.BoxGeometry(0, 4, 3);
+                const build1Win2Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const build1Win2Mesh = new THREE.Mesh(build1Win2Geometry, build1Win2Material);
+                build1Win2Mesh.position.set(17.4, 11, 42); 
+
+                const build1Win3Geometry = new THREE.BoxGeometry(0, 4, 3);
+                const build1Win3Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const build1Win3Mesh = new THREE.Mesh(build1Win3Geometry, build1Win3Material);
+                build1Win3Mesh.position.set(17.4, 5.5, 38);      
+                
+                const build1Win4Geometry = new THREE.BoxGeometry(0, 4, 3);
+                const build1Win4Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
+                const build1Win4Mesh = new THREE.Mesh(build1Win4Geometry, build1Win4Material);
+                build1Win4Mesh.position.set(17.4, 5.5, 42);   
+
+                const build1DoorGeometry = new THREE.BoxGeometry(0, 5, 3);
+                const build1DoorMaterial = new THREE.MeshBasicMaterial({ color: 0x990000});
+                const build1DoorMesh = new THREE.Mesh(build1DoorGeometry, build1DoorMaterial);
+                build1DoorMesh.position.set(17.4, 0, 40); 
+                
+                const doorhandle1Geometry = new THREE.BoxGeometry(0.08, 1, 0.08);
+                const doorhandle1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const doorhandle1Mesh = new THREE.Mesh(doorhandle1Geometry, doorhandle1Material);
+                doorhandle1Mesh.position.set(17, 1, 39.8);
+                
+                const doorhandle2Geometry = new THREE.BoxGeometry(0.08, 1, 0.08);
+                const doorhandle2Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const doorhandle2Mesh = new THREE.Mesh(doorhandle2Geometry, doorhandle2Material);
+                doorhandle2Mesh.position.set(17, 1, 40.2);
+
+                const doorstep1Geometry = new THREE.BoxGeometry(2, 0.6, 4);
+                const doorstep1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const doorstep1Mesh = new THREE.Mesh(doorstep1Geometry, doorstep1Material);
+                doorstep1Mesh.position.set(17, -1.9, 40);
+
+                building.add(build1Mesh);
+                building.add(build1Win1Mesh);
+                building.add(build1Win2Mesh);
+                building.add(build1Win3Mesh);
+                building.add(build1Win4Mesh);
+                building.add(build1DoorMesh);
+                building.add(doorhandle1Mesh);
+                building.add(doorhandle2Mesh);
+                building.add(roof1Mesh);
+                building.add(winsill1Mesh);
+                building.add(winsill2Mesh);
+                building.add(winsill3Mesh);
+                building.add(winsill4Mesh);
+                building.add(doorstep1Mesh);
+
+                return building;
+            }
+
+            function createTrafficLight(){
+
+                const trafficLight = new THREE.Object3D();
+
+                //Traffic Light - Poles
+                const pole1Geometry = new THREE.CylinderGeometry(0.3, 0.3, 10, 32);
+                const pole1Material = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+                const pole1Mesh = new THREE.Mesh(pole1Geometry, pole1Material);
+                pole1Mesh.position.set(-10, 0, 30);
+                pole1Mesh.rotation.x = deg2rad(180);
+
+                const pole2Geometry = new THREE.CylinderGeometry(0.3, 0.3, 10, 32);
+                const pole2Material = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+                const pole2Mesh = new THREE.Mesh(pole2Geometry, pole2Material);
+                pole2Mesh.position.set(10, 0, 30);
+                pole2Mesh.rotation.x = deg2rad(180);
+
+                const pole3Geometry = new THREE.CylinderGeometry(0.3, 0.3, 10, 32);
+                const pole3Material = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+                const pole3Mesh = new THREE.Mesh(pole3Geometry, pole3Material);
+                pole3Mesh.position.set(-10, 0, 30);
+                pole3Mesh.rotation.x = deg2rad(180);
+
+                const pole4Geometry = new THREE.CylinderGeometry(0.3, 0.3, 10, 32);
+                const pole4Material = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+                const pole4Mesh = new THREE.Mesh(pole4Geometry, pole4Material);
+                pole4Mesh.position.set(10, 0, 30);
+                pole4Mesh.rotation.x = deg2rad(180);
+                
+                //Traffic Light - Faces
+                const face1Geometry = new THREE.BoxGeometry(1.5, 5, 1);
+                const face1Material = new THREE.MeshBasicMaterial({ color: 0x000000});
+                const face1Mesh = new THREE.Mesh( face1Geometry, face1Material );
+                face1Mesh.position.set(-10, 6, 30);
+                face1Mesh.rotation.x = deg2rad(180);
+
+                const face2Geometry = new THREE.BoxGeometry(1.5, 5, 1);
+                const face2Material = new THREE.MeshBasicMaterial({ color: 0x000000});
+                const face2Mesh = new THREE.Mesh( face2Geometry, face2Material );
+                face2Mesh.position.set(10, 6, 30);
+                face2Mesh.rotation.x = deg2rad(180);
+
+                const face3Geometry = new THREE.BoxGeometry(1.5, 5, 1);
+                const face3Material = new THREE.MeshBasicMaterial({ color: 0x000000});
+                const face3Mesh = new THREE.Mesh( face3Geometry, face3Material );
+                face3Mesh.position.set(-10, 6, 30);
+                face3Mesh.rotation.x = deg2rad(180);
+
+                const face4Geometry = new THREE.BoxGeometry(1.5, 5, 1);
+                const face4Material = new THREE.MeshBasicMaterial({ color: 0x000000});
+                const face4Mesh = new THREE.Mesh( face4Geometry, face4Material );
+                face4Mesh.position.set(10, 6, 30);
+                face4Mesh.rotation.x = deg2rad(180);
+
+                //Traffic Light - Red Circles
+                const rc1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const rc1Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const rc1Mesh = new THREE.Mesh(rc1Geometry, rc1Material);
+                rc1Mesh.position.set(-9.8, 7.5, 30.6);
+
+                const rc2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const rc2Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const rc2Mesh = new THREE.Mesh(rc2Geometry, rc2Material);
+                rc2Mesh.position.set(9.8, 7.5, 30.6);  
+                
+                const rc3Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const rc3Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const rc3Mesh = new THREE.Mesh(rc3Geometry, rc3Material);
+                rc3Mesh.position.set(-9.8, 7.5, 30.6);
+
+                const rc4Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const rc4Material = new THREE.MeshBasicMaterial({ color: 0xE60000 });
+                const rc4Mesh = new THREE.Mesh(rc4Geometry, rc4Material);
+                rc4Mesh.position.set(9.8, 7.5, 30.6);  
+                
+                //Traffic Light - Amber Circles
+                const ac1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const ac1Material = new THREE.MeshBasicMaterial({ color: 0xFFBF00 });
+                const ac1Mesh = new THREE.Mesh(ac1Geometry, ac1Material);
+                ac1Mesh.position.set(-9.8, 6.0, 30.6);
+
+                const ac2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const ac2Material = new THREE.MeshBasicMaterial({ color: 0xFFBF00 });
+                const ac2Mesh = new THREE.Mesh(ac2Geometry, ac2Material);
+                ac2Mesh.position.set(9.8, 6.0, 30.6);
+
+                const ac3Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const ac3Material = new THREE.MeshBasicMaterial({ color: 0xFFBF00 });
+                const ac3Mesh = new THREE.Mesh(ac3Geometry, ac3Material);
+                ac3Mesh.position.set(-9.8, 6.0, 30.6);
+
+                const ac4Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const ac4Material = new THREE.MeshBasicMaterial({ color: 0xFFBF00 });
+                const ac4Mesh = new THREE.Mesh(ac4Geometry, ac4Material);
+                ac4Mesh.position.set(9.8, 6.0, 30.6);
+
+                //Traffic Light - Green Circles
+                const gc1Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const gc1Material = new THREE.MeshBasicMaterial({ color: 0x33A532 });
+                const gc1Mesh = new THREE.Mesh(gc1Geometry, gc1Material);
+                gc1Mesh.position.set(-9.8, 4.5, 30.6);
+
+                const gc2Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const gc2Material = new THREE.MeshBasicMaterial({ color: 0x33A532 });
+                const gc2Mesh = new THREE.Mesh(gc2Geometry, gc2Material);
+                gc2Mesh.position.set(9.8, 4.5, 30.6);
+
+                const gc3Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const gc3Material = new THREE.MeshBasicMaterial({ color: 0x33A532 });
+                const gc3Mesh = new THREE.Mesh(gc3Geometry, gc3Material);
+                gc3Mesh.position.set(-9.8, 4.5, 30.6);
+
+                const gc4Geometry = new THREE.CircleGeometry( 0.5, 32);
+                const gc4Material = new THREE.MeshBasicMaterial({ color: 0x33A532 });
+                const gc4Mesh = new THREE.Mesh(gc4Geometry, gc4Material);
+                gc4Mesh.position.set(9.8, 4.5, 30.6);
+
+                const trafficlightGroup1 = new THREE.Group();
+                trafficlightGroup1.add(pole1Mesh);
+                trafficlightGroup1.add(face1Mesh);
+                trafficlightGroup1.add(rc1Mesh);
+                trafficlightGroup1.add(ac1Mesh);
+                trafficlightGroup1.add(gc1Mesh);
+                trafficlightGroup1.position.set(-5, 0, -15);
+
+                const trafficlightGroup2 = new THREE.Group();
+                trafficlightGroup2.add(pole2Mesh);
+                trafficlightGroup2.add(face2Mesh);
+                trafficlightGroup2.add(rc2Mesh);
+                trafficlightGroup2.add(ac2Mesh);
+                trafficlightGroup2.add(gc2Mesh);
+                trafficlightGroup2.position.set(5, 0, -15);
+
+                const trafficlightGroup3 = new THREE.Group();
+                trafficlightGroup3.add(pole3Mesh);
+                trafficlightGroup3.add(face3Mesh);
+                trafficlightGroup3.add(rc3Mesh);
+                trafficlightGroup3.add(ac3Mesh);
+                trafficlightGroup3.add(gc3Mesh);
+                trafficlightGroup3.position.set(-25, 0, 15);
+                trafficlightGroup3.rotation.y = deg2rad(180);
+
+                const trafficlightGroup4 = new THREE.Group();
+                trafficlightGroup4.add(pole4Mesh);
+                trafficlightGroup4.add(face4Mesh);
+                trafficlightGroup4.add(rc4Mesh);
+                trafficlightGroup4.add(ac4Mesh);
+                trafficlightGroup4.add(gc4Mesh);
+                trafficlightGroup4.position.set(25, 0, 15);
+                trafficlightGroup4.rotation.y = deg2rad(180);
+
+                trafficLight.add(trafficlightGroup1);
+                trafficLight.add(trafficlightGroup2);
+                trafficLight.add(trafficlightGroup3);
+                trafficLight.add(trafficlightGroup4);
+
+                return trafficLight;
+            }
+
+            function plantTree(){
+                const tree = new THREE.Object3D();
+
+                //Tree-trunk
+                const trunkGeometry = new THREE.CylinderGeometry(1,0.3,6,32);
+                const trunkMaterial = new THREE.MeshBasicMaterial({ color: 0x5E4A3A });
+                const trunk = new THREE.Mesh( trunkGeometry, trunkMaterial);
+                trunk.position.set(-28, 0, 41);
+                trunk.rotation.x = deg2rad(180);
+
+                //Tree-top
+                const treetopGeometry = new THREE.SphereGeometry(2, 32, 32 );
+                const treetopMaterial = new THREE.MeshBasicMaterial({ color: 0x008000});
+                const treetop = new THREE.Mesh(treetopGeometry, treetopMaterial);
+                treetop.position.set(-28, 4, 41);
+                treetop.rotation.x = deg2rad(180);
+
+                tree.add(trunk);
+                tree.add(treetop);
+
+                return tree;
+            }
+
+            const animate = function(){
+
+                    renderer.render( scene, camera );
+                    requestAnimationFrame(animate);
+
+                }
+
             function onLoad() {
-                const container = document.getElementByID('container');
+                const container = document.getElementById('container');
                 const width = container.clientWidth, height = container.clientHeight;
                 renderer = new THREE.WebGLRenderer({ antialias: true });
-                renderer.setSize( width, height );
+                renderer.setSize(width, height);
                 renderer.setClearColor(0x87CEFF);
                 container.appendChild(renderer.domElement);
-
+            
                 camera = new THREE.PerspectiveCamera(45, width / height, 1, 300);
                 camera.position.z = 80;
                 camera.position.y = 10;
 
-                const light = new THREE.DirectionalLight( 0xFFFFFF, 1.5 );
+                const light = new THREE.DirectionalLight(0xffffff, 1.5);
                 light.position.set(-0.5, 0, 1);
-
-                const groundGeometry = new THREE.PlaneGeometry( 500, 500 );
+                
+                const groundGeometry = new THREE.PlaneGeometry(500, 500);
                 const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x004D00 });
                 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
                 groundMesh.rotation.x = deg2rad(-90);
                 groundMesh.position.y = -2.01;
 
+                //First road track
+                const trackGeometry = new THREE.BoxGeometry(16,500, 0.1);
+                const trackMaterial = new THREE.MeshBasicMaterial({ color: 0x3E4149 });
+                const trackMesh = new THREE.Mesh(trackGeometry, trackMaterial);
+                trackMesh.rotation.x = deg2rad(90);
+                trackMesh.position.y = -2.0;
+
+                //crossing road track
+                const roadShape = new THREE.Shape();
+                roadShape.moveTo(1,16);
+                roadShape.lineTo(500,16);
+                roadShape.lineTo(500,0);
+                roadShape.lineTo(1,0);
+                roadShape.lineTo(1,1);
+                roadShape.closePath();
+
+                const roadGeometry = new THREE.ExtrudeGeometry(roadShape, { depth: 1.0, bevelEnabled: false});
+                const roadMaterial = new THREE.MeshBasicMaterial({ color: 0x3E4149});
+                const roadMesh = new THREE.Mesh(roadGeometry, roadMaterial);
+                roadMesh.rotation.x = deg2rad(90);
+                roadMesh.position.y = -2.0;
+                roadMesh.position.z = -8;
+                roadMesh.position.x = -250;
+
+                const car = buildCar();
+                car.position.set(0, 0, 0);
+                carContainer = new THREE.Object3D();
+                carContainer.add(car);
+
+                const bus = buildBus();
+                bus.position.set(0.5, 0, -15);
+                busContainer = new THREE.Object3D();
+                busContainer.add(bus);
+
+                const truck = buildTruck();
+                truck.position.set(-5,0,0);
+                truckContainer = new THREE.Object3D();
+                truckContainer.add(truck);
+
+                const bld1 = createBuilding();
+                const bld2 = createBuilding();
+                bld2.position.set(0,0,20);
+                const bld3 = createBuilding();
+                bld3.position.set(0,0,40);
+
+                const trafficLight = createTrafficLight();
+                trafficLight.position.set(0, 0, 0);
+
+                const tree1 = plantTree();
+                tree1.position.set(-2, 0, -70);
+                const tree2 = plantTree();
+                tree2.position.set(-8, 0, -75);
+                const tree3 = plantTree();
+                tree3.position.set(-6, 0, -80);
+
+                scene = new THREE.Scene();
+                scene.add(groundMesh);
+                scene.add(light);
+                scene.add(trackMesh);
+                scene.add(roadMesh);
+                scene.add(carContainer);
+                scene.add(busContainer);
+                scene.add(truckContainer);
+                scene.add(bld1);
+                scene.add(bld2);
+                scene.add(bld3);
+                scene.add(trafficLight);
+                scene.add(tree1);
+                scene.add(tree2);
+                scene.add(tree3);
+                
+                scene.rotation.x = deg2rad(2);
+                //scene.rotation.y = deg2rad(180);
+                //scene.rotation.y = deg2rad(-90);
+                //scene.rotation.z = deg2rad(-2);
+
+                document.body.onresize = function() {
+                    const width = container.clientWidth, height = container.clientHeight;
+                    renderer.setSize(width, height);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                }
+
+                const render = function(){
+                    requestAnimationFrame(render);
+                    renderer.render( scene, camera );
+                };
+
+                render();
+
+                const moveVehicle = function(){
+                    requestAnimationFrame(moveVehicle);
+                    busContainer.position.z += 0.3;
+                    //truckContainer.position.x += 0.1;
+                    carContainer.position.z -= 0.3;
+                };
+
+                document.getElementById("driveButton").addEventListener("click", function(){
+                    
+                    moveVehicle();
+                });
+                
+                document.getElementById("sldrZOOM-IN").onchange = function(event) {
+                    camera.position.z -= 20;
+                }
+                
+                document.getElementById("sldrZOOM-OUT").onchange = function(event) {
+                    camera.position.z += 20;
+                }
+
+                controls = new THREE.OrbitControls( camera, renderer.domElement);
+
+                animate();
+            }
+
+            function deg2rad(degrees) {
+                return degrees * Math.PI / 180;
             }
         </script>
-
     </body>
 </html>
