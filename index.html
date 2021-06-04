@@ -7,14 +7,18 @@
             html { width: 100%; height: 100%; padding: 0; margin: 0; }
             body { width: 100%; height: 100%; padding: 20px; margin: 0; }
             #container { width: 100%; height: calc(100% - 50px) }
-            #driveButton { height: 40px; width: 30%; float: left; margin: 10px 0 0; background-color: orange; color: black }
-            #sldrZOOM-IN { height: 40px; width: 30%; float: left; margin: 10px 0 0 1%; }
-            #sldrZOOM-OUT { height: 40px; width: 30%; float: left; margin: 10px 0 0 1%; }
+            #driveButton { height: 40px; width: 20%; float: left; margin: 10px 0 0; background-color: #33A532; color: black }
+            #dayButton { height: 40px; width: 20%; float: left; margin: 10px 10px 0; background-color: #87CEEB; color: black }
+            #nightButton { height: 40px; width: 20%; float: left; margin: 10px 0 0; background-color: #2B2D2F; color: white }
+            #sldrZOOM-IN { height: 40px; width: 15%; float: left; margin: 10px 0 0 1%; }
+            #sldrZOOM-OUT { height: 40px; width: 15%; float: left; margin: 10px 0 0 1%; }
         </style>
     </head>
     <body onLoad="onLoad()">
         <div id="container"></div>
         <button id="driveButton" type="button">Drive</button>
+        <button id="dayButton" type="button">Daytime</button>
+        <button id="nightButton" type="button">Night-time</button>
         <input id="sldrZOOM-IN" type="range" min="0.1" max="1" step="0.1" value="0.5" />
         <input id="sldrZOOM-OUT" type="range" min="0.1" max="1" step="0.1" value="0.5" />
 
@@ -859,7 +863,7 @@
                 
                 scene.rotation.x = deg2rad(2);
                 //scene.rotation.y = deg2rad(180);
-                //scene.rotation.y = deg2rad(-90);
+                scene.rotation.y = deg2rad(-90);
                 //scene.rotation.z = deg2rad(-2);
 
                 document.body.onresize = function() {
@@ -888,6 +892,10 @@
                     moveVehicle();
                 });
                 
+                const nightScene = function(){
+
+                };
+
                 document.getElementById("sldrZOOM-IN").onchange = function(event) {
                     camera.position.z -= 20;
                 }
