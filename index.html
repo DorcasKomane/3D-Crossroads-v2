@@ -487,12 +487,12 @@
                 const building = new THREE.Object3D();
 
                 const build1Geometry = new THREE.BoxGeometry(5, 20, 10);
-                const build1Material = new THREE.MeshBasicMaterial({ color: 0x663300 });
+                const build1Material = new THREE.MeshLambertMaterial({ color: 0x663300 });
                 const build1Mesh = new THREE.Mesh(build1Geometry, build1Material);
                 build1Mesh.position.set(20, 5, 40);
 
                 const roof1Geometry = new THREE.BoxGeometry(5.5, 1, 11.5);
-                const roof1Material = new THREE.MeshBasicMaterial({ color: 0x2B2D2F});
+                const roof1Material = new THREE.MeshLambertMaterial({ color: 0x2B2D2F});
                 const roof1Mesh = new THREE.Mesh(roof1Geometry, roof1Material);
                 roof1Mesh.position.set(20, 15, 40);
 
@@ -777,7 +777,7 @@
 
                 const light = new THREE.DirectionalLight(0xffffff, 1.5);
                 light.position.set(-0.5, 0, 1);
-                
+
                 const groundGeometry = new THREE.PlaneGeometry(500, 500);
                 const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x004D00 });
                 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
