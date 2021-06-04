@@ -491,9 +491,9 @@
                 const building = new THREE.Object3D();
 
                 const build1Geometry = new THREE.BoxGeometry(5, 20, 10);
-                //const build1Material = new THREE.MeshLambertMaterial({ color: 0x663300 });
-                const build1Texture = new THREE.TextureLoader().load('textures/brickwall-texture.jpg');
-                const build1Material = new THREE.MeshBasicMaterial({ map: build1Texture });
+                const build1Material = new THREE.MeshLambertMaterial({ color: 0x663300 });
+                //const build1Texture = new THREE.TextureLoader().load('textures/brickwall-texture.jpg');
+                //const build1Material = new THREE.MeshBasicMaterial({ map: build1Texture });
                 const build1Mesh = new THREE.Mesh(build1Geometry, build1Material);
                 build1Mesh.position.set(20, 5, 40);
 
@@ -863,7 +863,7 @@
                 
                 scene.rotation.x = deg2rad(2);
                 //scene.rotation.y = deg2rad(180);
-                scene.rotation.y = deg2rad(-90);
+                //scene.rotation.y = deg2rad(-90);
                 //scene.rotation.z = deg2rad(-2);
 
                 document.body.onresize = function() {
@@ -893,8 +893,21 @@
                 });
                 
                 const nightScene = function(){
+                    requestAnimationFrame(nightScene);
+
+                    renderer.background('images/paul-volkmer-qVotvbsuM_c-unsplash');
+
+                    const hemmisphereLight = new THREE.HemisphereLight(0xAAAAAA, 0x000000, 0.9);
+
+                    const shadowLight = new THREE.DirectionalLight(0xFFFFFF, 0.9);
+                    shadowLight.position.set( 150, 350, 350 );
 
                 };
+
+                document.getElementById("nightButton").addEventListener("click", function(){
+                    
+                    nightScene();
+                });
 
                 document.getElementById("sldrZOOM-IN").onchange = function(event) {
                     camera.position.z -= 20;
