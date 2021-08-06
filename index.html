@@ -23,7 +23,7 @@
         <input id="sldrZOOM-OUT" type="range" min="0.1" max="1" step="0.1" value="0.5" />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js" integrity="sha512-U4J4PbEJ2TMjFqPUSiKq7LLTHuEkPZVo0jl2fomi9pT7UAExh4xVi8KmoR7EfmyigH95aA68zpW7y3XzuoSurQ==" crossorigin="anonymous"></script>
-        <script src="/js/OrbitControls.js"></script>
+        <script src="js/OrbitControls.js"></script>
         <script>
             let renderer = null,
             scene = null,
@@ -767,20 +767,40 @@
             function createStreetLight(){
                 const streetLight = new THREE.Object3D();
 
-                const lightPoleGeometry = new THREE.CylinderGeometry(0.3, 0.3, 20, 32);
+                const lightPoleGeometry = new THREE.CylinderGeometry(0.3, 0.6, 20, 32);
                 const lightPoleMaterial = new THREE.MeshLambertMaterial({ color: 0xAAA9AD });
                 const lightPole = new THREE.Mesh(lightPoleGeometry, lightPoleMaterial);
-                lightPole.position.set(-80, 0, 34);
+                lightPole.position.set(-80, 3, 34);
                 lightPole.rotation.x = deg2rad(180);
 
-                const lightHeadGeometry = new THREE.BoxGeometry(2, -1, 8);
-                const lightHeadMaterial = new THREE.MeshLambertMaterial({ color: 0xAAA9AD });
-                const lightHead = new THREE.Mesh(lightHeadGeometry, lightHeadMaterial);
-                lightHead.position.set(-80.5, 10, 34);
-                lightHead.rotation.z = deg2rad(2);
+                const lightArm1Geometry = new THREE.CylinderGeometry(0.3, 0.3, 5, 32);
+                const lightArm1Material = new THREE.MeshLambertMaterial({ color: 0xAAA9AD });
+                const lightArm1 = new THREE.Mesh(lightArm1Geometry, lightArm1Material);
+                lightArm1.position.set(-80, 12, 32);
+                lightArm1.rotation.x = deg2rad(90);
+
+                const lightArm2Geometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32);
+                const lightArm2Material = new THREE.MeshLambertMaterial({ color: 0xAAA9AD });
+                const lightArm2 = new THREE.Mesh(lightArm2Geometry, lightArm2Material);
+                lightArm2.position.set(-80, 11.5, 31);
+                lightArm2.rotation.x = deg2rad(180);
+
+                const lightCircleGeometry = new THREE.CircleGeometry(2, 32);
+                const lightCircleMaterial = new THREE.MeshLambertMaterial({ color: 0x2B2D2F });
+                const lightCircle = new THREE.Mesh(lightCircleGeometry, lightCircleMaterial);
+                lightCircle.position.set(-80, 11, 31);
+                lightCircle.rotation.x = deg2rad(90);
+
+                const lightSphereGeometry = new THREE.SphereGeometry(1, 22, 10);
+                const lightSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const lightSphere = new THREE.Mesh(lightSphereGeometry, lightSphereMaterial);
+                lightSphere.position.set(-80, 9.8, 31);
 
                 streetLight.add(lightPole);
-                streetLight.add(lightHead);
+                streetLight.add(lightArm1);
+                streetLight.add(lightArm2);
+                streetLight.add(lightCircle);
+                streetLight.add(lightSphere);
                 
                 return streetLight;                
             }
@@ -946,9 +966,36 @@
                 tree10.position.set(90, 0, -15);
 
                 const streetLight1 = createStreetLight();
-                streetLight1.position.set(50, 0, -20);
-                streetLightContainer = new THREE.Object3D();
-                streetLightContainer.add(streetLight1);
+                streetLight1.position.set(50, 0, -19);
+                //streetLight1Container = new THREE.Object3D();
+                //streetLight1Container.add(streetLight1);
+
+                const streetLight2 = createStreetLight();
+                streetLight2.position.set(-110, 0, 19);
+                streetLight2.rotation.y = deg2rad(180);
+                //streetLight2Container = new THREE.Object3D();
+                //streetLight2Container.add(streetLight2);
+
+                const streetLight3 = createStreetLight();
+                streetLight3.position.set(-150, 0, 19);
+                streetLight3.rotation.y = deg2rad(180);
+
+                const streetLight4 = createStreetLight();
+                streetLight4.position.set(10, 0, -19);
+
+                const streetLight5 = createStreetLight();
+                streetLight5.position.set(110, 0, -19);
+
+                const streetLight6 = createStreetLight();
+                streetLight6.position.set(150, 0, -19);
+
+                const streetLight7 = createStreetLight();
+                streetLight7.position.set(-50, 0, 19);
+                streetLight7.rotation.y = deg2rad(180);
+
+                const streetLight8 = createStreetLight();
+                streetLight8.position.set(-10, 0, 19);
+                streetLight8.rotation.y = deg2rad(180);
 
 
                 scene = new THREE.Scene();
@@ -970,6 +1017,13 @@
                 scene.add(bld6);
                 scene.add(trafficLight);
                 scene.add(streetLight1);
+                scene.add(streetLight2);
+                scene.add(streetLight3);
+                scene.add(streetLight4);
+                scene.add(streetLight5);
+                scene.add(streetLight6);
+                scene.add(streetLight7);
+                scene.add(streetLight8);
                 scene.add(tree1);
                 scene.add(tree2);
                 scene.add(tree3);
