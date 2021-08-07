@@ -33,7 +33,6 @@
 
             var scene1, scene2, geometry2, material2, mesh2;
 
-
             function buildCar(){
 
                 const car = new THREE.Object3D();
@@ -808,6 +807,75 @@
                 return streetLight;                
             }
 
+            function createStar(){
+                const star = new THREE.Object3D();
+
+                const starSphere1Geometry = new THREE.SphereGeometry(0.7, 22, 10);
+                const starSphere1Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere1 = new THREE.Mesh(starSphere1Geometry, starSphere1Material);
+                starSphere1.position.set(0, 40, -150); 
+
+                const starSphere2Geometry = new THREE.SphereGeometry(0.5, 22, 10);
+                const starSphere2Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere2 = new THREE.Mesh(starSphere2Geometry, starSphere2Material);
+                starSphere2.position.set(0, 25, -150); 
+
+                const starSphere3Geometry = new THREE.SphereGeometry(0.5, 22, 10);
+                const starSphere3Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere3 = new THREE.Mesh(starSphere3Geometry, starSphere3Material);
+                starSphere3.position.set(0, 55, -150); 
+
+                const starSphere4Geometry = new THREE.SphereGeometry(0.3, 22, 10);
+                const starSphere4Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere4 = new THREE.Mesh(starSphere4Geometry, starSphere4Material);
+                starSphere4.position.set(15, 40, -150); 
+
+                const starSphere5Geometry = new THREE.SphereGeometry(0.3, 22, 10);
+                const starSphere5Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere5 = new THREE.Mesh(starSphere5Geometry, starSphere5Material);
+                starSphere5.position.set(-15, 40, -150);
+
+                const starSphere6Geometry = new THREE.SphereGeometry(0.2, 22, 10);
+                const starSphere6Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere6 = new THREE.Mesh(starSphere6Geometry, starSphere6Material);
+                starSphere6.position.set(-20, 50, -150);
+
+                const starSphere7Geometry = new THREE.SphereGeometry(0.2, 22, 10);
+                const starSphere7Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere7 = new THREE.Mesh(starSphere7Geometry, starSphere7Material);
+                starSphere7.position.set(20, 45, -150);
+
+                const starSphere8Geometry = new THREE.SphereGeometry(0.5, 22, 10);
+                const starSphere8Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere8 = new THREE.Mesh(starSphere8Geometry, starSphere8Material);
+                starSphere8.position.set(20, 25, -150);
+
+                const starSphere9Geometry = new THREE.SphereGeometry(0.3, 22, 10);
+                const starSphere9Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere9 = new THREE.Mesh(starSphere9Geometry, starSphere9Material);
+                starSphere9.position.set(10, 15, -150);
+
+                const starSphere10Geometry = new THREE.SphereGeometry(0.2, 22, 10);
+                const starSphere10Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere10 = new THREE.Mesh(starSphere10Geometry, starSphere10Material);
+                starSphere10.position.set(-15, 30, -150);
+
+
+                star.add(starSphere1);
+                star.add(starSphere2);
+                star.add(starSphere3);
+                star.add(starSphere4);
+                star.add(starSphere5);
+                star.add(starSphere6);
+                star.add(starSphere7);
+                star.add(starSphere8);
+                star.add(starSphere9);
+                star.add(starSphere10);
+
+
+                return star;
+            }
+
             const animate = function(){
 
                     renderer.render( scene, camera );
@@ -819,7 +887,10 @@
                 const width = container.clientWidth, height = container.clientHeight;
                 renderer = new THREE.WebGLRenderer({ antialias: true });
                 renderer.setSize(width, height);
-                renderer.setClearColor(0x87CEFF);
+                renderer.setClearColor(0x0C1445);
+                //var nightBackground = new THREE.TextureLoader().load('images/guille-pozzi-bgImage.jpg');
+                //nightBackground.minFilter = THREE.LinearFilter;
+                //renderer.background = nightBackground;
                 container.appendChild(renderer.domElement);
             
                 camera = new THREE.PerspectiveCamera(45, width / height, 1, 300);
@@ -829,8 +900,6 @@
 
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
                 directionalLight.position.set(-1.5, 2, 1.0);
-
-                const hemisphereLight = new THREE.HemisphereLight(0xAAAAAA, 0x000000, 0.9);
 
                 const groundGeometry = new THREE.PlaneGeometry(500, 500);
                 const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x004D00 });
@@ -914,6 +983,37 @@
                 roadLine2Mesh.position.y = -1.9;
                 roadLine2Mesh.position.z = -250;
                 roadLine2Mesh.position.x = 0; 
+
+                //The moon
+                const moonSphereGeometry = new THREE.SphereGeometry(7, 22, 10);
+                const moonSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
+                moonSphere.position.set(0, 40, -250); 
+
+                //Stars
+                const star1 = createStar();
+                star1.position.set(5, 0, 0);
+
+                const star2 = createStar();
+                star2.position.set(45, -10, 0);
+
+                const star3 = createStar();
+                star3.position.set(100, -5, 0);
+
+                const star4 = createStar();
+                star4.position.set(150, -10, 0);
+
+                const star5 = createStar();
+                star5.position.set(200, -10, 0);
+
+                const star6 = createStar();
+                star6.position.set(-20, 0, 0);    
+                
+                const star7 = createStar();
+                star7.position.set(-50, 0, 0);
+
+                const star8 = createStar();
+                star8.position.set(-90, 0, 0);
 
                 const car = buildCar();
                 car.position.set(-0.3, 0, -7);
@@ -1074,7 +1174,15 @@
                 scene = new THREE.Scene();
                 scene.add(groundMesh);
                 scene.add(directionalLight);
-                scene.add(hemisphereLight);
+                scene.add(moonSphere);
+                scene.add(star1);
+                scene.add(star2);
+                scene.add(star3);
+                scene.add(star4);
+                scene.add(star5);
+                scene.add(star6);
+                scene.add(star7);
+                scene.add(star8);
                 scene.add(trackMesh);
                 scene.add(roadMesh);
                 scene.add(midwayMesh);
@@ -1135,138 +1243,8 @@
                 scene.rotation.y = deg2rad(30);
                 //scene.rotation.y = deg2rad(90);
                 //scene.rotation.z = deg2rad(-2);
-                
-/*
-                scene1 = new THREE.Scene();
 
-                scene1.add(groundMesh);
-                scene1.add(light);
-                scene1.add(trackMesh);
-                scene1.add(roadMesh);
-                scene1.add(midwayMesh);
-                scene1.add(roadLine1Mesh);
-                scene1.add(roadLine2Mesh);
-                scene1.add(carContainer);
-                scene1.add(busContainer);
-                scene1.add(truckContainer);
-                scene1.add(bld1);
-                scene1.add(bld2);
-                scene1.add(bld3);
-                scene1.add(bld4);
-                scene1.add(bld5);
-                scene1.add(bld6);
-                scene1.add(trafficLight);
-                scene1.add(streetLight1);
-                scene1.add(streetLight2);
-                scene1.add(streetLight3);
-                scene1.add(streetLight4);
-                scene1.add(streetLight5);
-                scene1.add(streetLight6);
-                scene1.add(streetLight7);
-                scene1.add(streetLight8);
-                scene1.add(streetLight9);
-                scene1.add(streetLight10);
-                scene1.add(streetLight11);
-                scene1.add(streetLight12);
-                scene1.add(streetLight13);
-                scene1.add(streetLight14);
-                scene1.add(streetLight15);
-                scene1.add(streetLight16);
-                scene1.add(streetLight17);
-                scene1.add(streetLight18);
-                scene1.add(streetLight19);
-                scene1.add(streetLight20);
-                scene1.add(tree1);
-                scene1.add(tree2);
-                scene1.add(tree3);
-                scene1.add(tree4);
-                scene1.add(tree5);
-                scene1.add(tree6);
-                scene1.add(tree7);
-                scene1.add(tree8);
-                scene1.add(tree9);
-                scene1.add(tree10);
-                scene1.add(tree11);
-                scene1.add(tree12);
-                scene1.add(tree13);
-                scene1.add(tree14);
-                scene1.add(tree15);
-                scene1.add(tree16);
-                scene1.add(tree17);
-                scene1.add(tree18);
-                scene1.add(tree19);
-                scene1.add(tree20);
-                
-                scene1.rotation.x = deg2rad(2);
-                scene1.rotation.y = deg2rad(30);
-                //scene.rotation.y = deg2rad(90);
-                //scene.rotation.z = deg2rad(-2);
-
-                scene2 = new THREE.Scene();
-                scene2.add(groundMesh);
-                scene2.add(light);
-                scene2.add(trackMesh);
-                scene2.add(roadMesh);
-                scene2.add(midwayMesh);
-                scene2.add(roadLine1Mesh);
-                scene2.add(roadLine2Mesh);
-                //scene1.add(carContainer);
-                //scene1.add(busContainer);
-                //scene1.add(truckContainer);
-                scene2.add(bld1);
-                scene2.add(bld2);
-                scene2.add(bld3);
-                scene2.add(bld4);
-                scene2.add(bld5);
-                scene2.add(bld6);
-                scene2.add(trafficLight);
-                scene2.add(streetLight1);
-                scene2.add(streetLight2);
-                scene2.add(streetLight3);
-                scene2.add(streetLight4);
-                scene2.add(streetLight5);
-                scene2.add(streetLight6);
-                scene2.add(streetLight7);
-                scene2.add(streetLight8);
-                scene2.add(streetLight9);
-                scene2.add(streetLight10);
-                scene2.add(streetLight11);
-                scene2.add(streetLight12);
-                scene2.add(streetLight13);
-                scene2.add(streetLight14);
-                scene2.add(streetLight15);
-                scene2.add(streetLight16);
-                scene2.add(streetLight17);
-                scene2.add(streetLight18);
-                scene2.add(streetLight19);
-                scene2.add(streetLight20);
-                scene2.add(tree1);
-                scene2.add(tree2);
-                scene2.add(tree3);
-                scene2.add(tree4);
-                scene2.add(tree5);
-                scene2.add(tree6);
-                scene2.add(tree7);
-                scene2.add(tree8);
-                scene2.add(tree9);
-                scene2.add(tree10);
-                scene2.add(tree11);
-                scene2.add(tree12);
-                scene2.add(tree13);
-                scene2.add(tree14);
-                scene2.add(tree15);
-                scene2.add(tree16);
-                scene2.add(tree17);
-                scene2.add(tree18);
-                scene2.add(tree19);
-                scene2.add(tree20);
-                
-                //scene2.rotation.x = deg2rad(2);
-                //scene2.rotation.y = deg2rad(30);
-                //scene.rotation.y = deg2rad(90);
-                //scene.rotation.z = deg2rad(-2);
-*/
-                document.body.onresize = function() {
+                 document.body.onresize = function() {
                     const width = container.clientWidth, height = container.clientHeight;
                     renderer.setSize(width, height);
                     camera.aspect = width / height;
@@ -1297,7 +1275,16 @@
                 }
 
                 const loadNightScene = function() {
+                    requestAnimationFrame(loadNightScene);
+
+                    renderer.background('images/paul-volkmer-qVotvbsuM_c-unsplash');
+
+                    const hemisphereLight = new THREE.HemisphereLight(0xAAAAAA, 0x000000, 0.9);
+
+                    const shadowLight = new THREE.DirectionalLight(0xFFFFFF, 0.9);
+                    shadowLight.position.set( 150, 350, 350 );
                     scene = scene2;
+
                 }
 
                 document.getElementById("dayButton").addEventListener("click", function(){
