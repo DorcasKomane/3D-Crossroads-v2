@@ -911,7 +911,7 @@
                 roadLine2Mesh.position.x = 0; 
 
                 const car = buildCar();
-                car.position.set(-0.3, 0, 0);
+                car.position.set(-0.3, 0, -7);
                 carContainer = new THREE.Object3D();
                 carContainer.add(car);
 
@@ -930,16 +930,17 @@
                 truckContainer.add(truck);
 
                 const bld1 = createBuilding();
+                bld1.position.set(6,0,0);
                 const bld2 = createBuilding();
-                bld2.position.set(0,0,20);
+                bld2.position.set(6,0,20);
                 const bld3 = createBuilding();
-                bld3.position.set(0,0,40);
+                bld3.position.set(6,0,40);
                 const bld4 = createBuilding();
-                bld4.position.set(0,0,-80);
+                bld4.position.set(6,0,-80);
                 const bld5 = createBuilding();
-                bld5.position.set(0,0,-100);
+                bld5.position.set(6,0,-100);
                 const bld6 = createBuilding();
-                bld6.position.set(0,0,-120);
+                bld6.position.set(6,0,-120);
 
                 const trafficLight = createTrafficLight();
                 trafficLight.position.set(0, 0, 0);
@@ -964,6 +965,26 @@
                 tree9.position.set(80, 0, -15);
                 const tree10 = plantTree();
                 tree10.position.set(90, 0, -15);
+                const tree11 = plantTree();
+                tree11.position.set(2, 0, -65);
+                const tree12 = plantTree();
+                tree12.position.set(-8, 0, -65);
+                const tree13 = plantTree();
+                tree13.position.set(-18, 0, -65);
+                const tree14 = plantTree();
+                tree14.position.set(-28, 0, -65);
+                const tree15 = plantTree();
+                tree15.position.set(-38, 0, -65);
+                const tree16 = plantTree();
+                tree16.position.set(2, 0, -15);
+                const tree17 = plantTree();
+                tree17.position.set(-8, 0, -15);
+                const tree18 = plantTree();
+                tree18.position.set(-18, 0, -15);
+                const tree19 = plantTree();
+                tree19.position.set(-28, 0, -15);
+                const tree20 = plantTree();
+                tree20.position.set(-38, 0, -15);
 
                 const streetLight1 = createStreetLight();
                 streetLight1.position.set(50, 0, -19);
@@ -997,6 +1018,53 @@
                 streetLight8.position.set(-10, 0, 19);
                 streetLight8.rotation.y = deg2rad(180);
 
+                const streetLight9 = createStreetLight();
+                streetLight9.position.set(-20, 0, -35);
+                streetLight9.rotation.y = deg2rad(90);
+
+                const streetLight10 = createStreetLight();
+                streetLight10.position.set(-20, 0, 5);
+                streetLight10.rotation.y = deg2rad(90);
+
+                const streetLight11 = createStreetLight();
+                streetLight11.position.set(-20, 0, 45);
+                streetLight11.rotation.y = deg2rad(90);
+
+                const streetLight12 = createStreetLight();
+                streetLight12.position.set(-20, 0, -125);
+                streetLight12.rotation.y = deg2rad(90);
+
+                const streetLight13 = createStreetLight();
+                streetLight13.position.set(-20, 0, -165);
+                streetLight13.rotation.y = deg2rad(90);
+
+                const streetLight14 = createStreetLight();
+                streetLight14.position.set(-20, 0, -205);
+                streetLight14.rotation.y = deg2rad(90);
+
+                const streetLight15 = createStreetLight();
+                streetLight15.position.set(20, 0, -55);
+                streetLight15.rotation.y = deg2rad(-90);
+
+                const streetLight16 = createStreetLight();
+                streetLight16.position.set(20, 0, -13);
+                streetLight16.rotation.y = deg2rad(-90);
+
+                const streetLight17 = createStreetLight();
+                streetLight17.position.set(20, 0, 35);
+                streetLight17.rotation.y = deg2rad(-90);
+
+                const streetLight18 = createStreetLight();
+                streetLight18.position.set(20, 0, 125);
+                streetLight18.rotation.y = deg2rad(-90);
+
+                const streetLight19 = createStreetLight();
+                streetLight19.position.set(20, 0, 165);
+                streetLight19.rotation.y = deg2rad(-90);
+
+                const streetLight20 = createStreetLight();
+                streetLight20.position.set(20, 0, 205);
+                streetLight20.rotation.y = deg2rad(-90);
 
                 scene = new THREE.Scene();
                 scene.add(groundMesh);
@@ -1024,6 +1092,18 @@
                 scene.add(streetLight6);
                 scene.add(streetLight7);
                 scene.add(streetLight8);
+                scene.add(streetLight9);
+                scene.add(streetLight10);
+                scene.add(streetLight11);
+                scene.add(streetLight12);
+                scene.add(streetLight13);
+                scene.add(streetLight14);
+                scene.add(streetLight15);
+                scene.add(streetLight16);
+                scene.add(streetLight17);
+                scene.add(streetLight18);
+                scene.add(streetLight19);
+                scene.add(streetLight20);
                 scene.add(tree1);
                 scene.add(tree2);
                 scene.add(tree3);
@@ -1034,6 +1114,16 @@
                 scene.add(tree8);
                 scene.add(tree9);
                 scene.add(tree10);
+                scene.add(tree11);
+                scene.add(tree12);
+                scene.add(tree13);
+                scene.add(tree14);
+                scene.add(tree15);
+                scene.add(tree16);
+                scene.add(tree17);
+                scene.add(tree18);
+                scene.add(tree19);
+                scene.add(tree20);
                 
                 scene.rotation.x = deg2rad(2);
                 scene.rotation.y = deg2rad(30);
@@ -1071,7 +1161,7 @@
 
                     renderer.background('images/paul-volkmer-qVotvbsuM_c-unsplash');
 
-                    const hemmisphereLight = new THREE.HemisphereLight(0xAAAAAA, 0x000000, 0.9);
+                    const hemisphereLight = new THREE.HemisphereLight(0xAAAAAA, 0x000000, 0.9);
 
                     const shadowLight = new THREE.DirectionalLight(0xFFFFFF, 0.9);
                     shadowLight.position.set( 150, 350, 350 );
