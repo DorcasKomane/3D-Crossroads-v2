@@ -528,6 +528,19 @@
                 const build1Win1Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
                 const build1Win1Mesh = new THREE.Mesh(build1Win1Geometry, build1Win1Material);
                 build1Win1Mesh.position.set(17.4, 11, 38);
+/*
+                //Rect Light
+                const width = 10;
+                const height = 10;
+                const intensity = 1;
+                const rectLight = new THREE.RectAreaLight(0xFFFFFF, intensity, width, height);
+                rectLight.position.set(17.4, 11, 38);
+                rectLight.lookAt(0, 0, 0);
+
+                const rectLightHelper = new THREE.RectAreaLightHelper(rectLight);
+                rectLight.add(rectLightHelper);
+*/
+
 
                 const build1Win2Geometry = new THREE.BoxGeometry(0, 4, 3);
                 const build1Win2Material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3});
@@ -566,6 +579,7 @@
 
                 building.add(build1Mesh);
                 building.add(build1Win1Mesh);
+                //building.add(rectLight);
                 building.add(build1Win2Mesh);
                 building.add(build1Win3Mesh);
                 building.add(build1Win4Mesh);
@@ -814,22 +828,46 @@
                 const star = new THREE.Object3D();
 
                 const starSphere1Geometry = new THREE.SphereGeometry(0.7, 22, 10);
-                const starSphere1Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere1Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere1Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere1Texture
+                });
                 const starSphere1 = new THREE.Mesh(starSphere1Geometry, starSphere1Material);
                 starSphere1.position.set(0, 40, -150); 
 
                 const starSphere2Geometry = new THREE.SphereGeometry(0.5, 22, 10);
-                const starSphere2Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere2Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere2Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere2Texture
+                });
                 const starSphere2 = new THREE.Mesh(starSphere2Geometry, starSphere2Material);
                 starSphere2.position.set(0, 25, -150); 
 
                 const starSphere3Geometry = new THREE.SphereGeometry(0.5, 22, 10);
-                const starSphere3Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere3Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere3Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere3Texture
+                });
                 const starSphere3 = new THREE.Mesh(starSphere3Geometry, starSphere3Material);
                 starSphere3.position.set(0, 55, -150); 
 
                 const starSphere4Geometry = new THREE.SphereGeometry(0.3, 22, 10);
-                const starSphere4Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere4Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere4Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere4Texture
+                });
                 const starSphere4 = new THREE.Mesh(starSphere4Geometry, starSphere4Material);
                 starSphere4.position.set(15, 40, -150); 
 
@@ -839,27 +877,58 @@
                 starSphere5.position.set(-15, 40, -150);
 
                 const starSphere6Geometry = new THREE.SphereGeometry(0.2, 22, 10);
-                const starSphere6Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                //const starSphere6Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere6Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere6Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere6Texture
+                });
                 const starSphere6 = new THREE.Mesh(starSphere6Geometry, starSphere6Material);
                 starSphere6.position.set(-20, 50, -150);
 
                 const starSphere7Geometry = new THREE.SphereGeometry(0.2, 22, 10);
-                const starSphere7Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere7Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere7Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere7Texture
+                });
                 const starSphere7 = new THREE.Mesh(starSphere7Geometry, starSphere7Material);
                 starSphere7.position.set(20, 45, -150);
 
                 const starSphere8Geometry = new THREE.SphereGeometry(0.5, 22, 10);
-                const starSphere8Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere8Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere8Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere8Texture
+                });
                 const starSphere8 = new THREE.Mesh(starSphere8Geometry, starSphere8Material);
                 starSphere8.position.set(20, 25, -150);
 
                 const starSphere9Geometry = new THREE.SphereGeometry(0.3, 22, 10);
-                const starSphere9Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere9Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere9Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere9Texture
+                });
                 const starSphere9 = new THREE.Mesh(starSphere9Geometry, starSphere9Material);
                 starSphere9.position.set(10, 15, -150);
 
                 const starSphere10Geometry = new THREE.SphereGeometry(0.2, 22, 10);
-                const starSphere10Material = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const starSphere10Texture = new THREE.TextureLoader().load('textures/moon.png');
+                const starSphere10Material = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
+                    emissiveMap: starSphere10Texture
+                });
                 const starSphere10 = new THREE.Mesh(starSphere10Geometry, starSphere10Material);
                 starSphere10.position.set(-15, 30, -150);
 
@@ -1019,17 +1088,14 @@
                 //The moon
                 const moonSphereGeometry = new THREE.SphereGeometry(10, 22, 10);
                 const moonSphereTexture = new THREE.TextureLoader().load('textures/moon.png');
-                const moonSphereMaterial = new THREE.MeshStandardMaterial({map:moonSphereTexture});
-                const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
-                moonSphere.position.set(0, 40, -250); 
-/*
                 const moonSphereMaterial = new THREE.MeshStandardMaterial({ 
                     color: 0xFFFFFF, 
-                    emissiveIntensity: 1,  
+                    emissive: 0xFFFFFF,
+                    emissiveIntensity: 0.4,  
                     emissiveMap: moonSphereTexture
-                });*/
-                //const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
-                //moonSphere.position.set(0, 40, -250); 
+                });
+                const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
+                moonSphere.position.set(0, 40, -250); 
 
                 //Stars
                 const star1 = createStar();
