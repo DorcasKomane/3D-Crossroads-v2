@@ -798,11 +798,14 @@
                 const lightSphere = new THREE.Mesh(lightSphereGeometry, lightSphereMaterial);
                 lightSphere.position.set(-80, 9.8, 31);
 
+               
                 streetLight.add(lightPole);
                 streetLight.add(lightArm1);
                 streetLight.add(lightArm2);
                 streetLight.add(lightCircle);
                 streetLight.add(lightSphere);
+                //streetLight.add(spotLight2);
+                //streetLight.add(spotLightHelper);
                 
                 return streetLight;                
             }
@@ -872,13 +875,13 @@
                 star.add(starSphere9);
                 star.add(starSphere10);
 
-
                 return star;
             }
 
             const animate = function(){
 
                     renderer.render( scene, camera );
+                    //spotLightHelper.update();
                     requestAnimationFrame(animate);
                 }
 
@@ -888,9 +891,6 @@
                 renderer = new THREE.WebGLRenderer({ antialias: true });
                 renderer.setSize(width, height);
                 renderer.setClearColor(0x0C1445);
-                //var nightBackground = new THREE.TextureLoader().load('images/guille-pozzi-bgImage.jpg');
-                //nightBackground.minFilter = THREE.LinearFilter;
-                //renderer.background = nightBackground;
                 container.appendChild(renderer.domElement);
             
                 camera = new THREE.PerspectiveCamera(45, width / height, 1, 300);
@@ -898,8 +898,40 @@
                 camera.position.z = 90;
                 camera.position.y = 20;
 
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-                directionalLight.position.set(-1.5, 2, 1.0);
+
+                //Lights
+                //const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+                //directionalLight.position.set(-1.5, 2, 1.0);
+
+                const spotLight = new THREE.SpotLight(0xFFFCBB);
+                spotLight.position.set(-15, 30, 50);
+                spotLight.rotation.z = deg2rad(180);
+                spotLight.castShadow = true;
+
+                spotLight.shadow.mapSize.width = 1024;
+                spotLight.shadow.mapSize.width = 1024;
+
+                spotLight.shadow.camera.near = 500;
+                spotLight.shadow.camera.far = 400;
+                spotLight.shadow.camera.fov = 10;
+
+                const pointLight = new THREE.PointLight(0xFFFFFF, 1, 10);
+                pointLight.position.set(-32.2, 8, -4.5);
+
+                const sphereSize = 1;
+                const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+
+                const spotLight2 = new THREE.SpotLight(0xFFFFFF, 1, 0, Math.PI/8, 0.2);
+                spotLight2.position.set(0,100, 10);
+                spotLight2.castShadow = true;
+                spotLight2.shadow.mapSize.width = 1024;
+                spotLight2.shadow.mapSize.height = 1024;
+                spotLight2.shadow.camera.near = 500;
+                spotLight2.shadow.camera.far = 4000;
+                spotLight2.shadow.camera.fov = 30;
+
+                const spotLightHelper = new THREE.SpotLightHelper(spotLight2, 0xFFFFFF);
+                spotLightHelper.position.y = 40;
 
                 const groundGeometry = new THREE.PlaneGeometry(500, 500);
                 const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x004D00 });
@@ -985,10 +1017,19 @@
                 roadLine2Mesh.position.x = 0; 
 
                 //The moon
-                const moonSphereGeometry = new THREE.SphereGeometry(7, 22, 10);
-                const moonSphereMaterial = new THREE.MeshBasicMaterial({ color: 0xFDF4DC });
+                const moonSphereGeometry = new THREE.SphereGeometry(10, 22, 10);
+                const moonSphereTexture = new THREE.TextureLoader().load('textures/moon.png');
+                const moonSphereMaterial = new THREE.MeshStandardMaterial({map:moonSphereTexture});
                 const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
                 moonSphere.position.set(0, 40, -250); 
+/*
+                const moonSphereMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0xFFFFFF, 
+                    emissiveIntensity: 1,  
+                    emissiveMap: moonSphereTexture
+                });*/
+                //const moonSphere = new THREE.Mesh(moonSphereGeometry, moonSphereMaterial);
+                //moonSphere.position.set(0, 40, -250); 
 
                 //Stars
                 const star1 = createStar();
@@ -1173,7 +1214,12 @@
 
                 scene = new THREE.Scene();
                 scene.add(groundMesh);
-                scene.add(directionalLight);
+                //scene.add(directionalLight);
+                scene.add(spotLight);
+                scene.add(spotLight2);
+                //scene.add(spotLightHelper);
+                //scene.add(pointLight);
+                //scene.add(pointLightHelper);
                 scene.add(moonSphere);
                 scene.add(star1);
                 scene.add(star2);
