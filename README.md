@@ -1,2 +1,2 @@
 # 3D-Crossroads-v2
-Improved version of a 3D Crossroads course assignment project
+3D Crossroads course assignment project, including both a daytime and a nighttime scene. 
