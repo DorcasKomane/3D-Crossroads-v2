@@ -1,7 +1,3 @@
-# 3D-Crossroads-v2
-3D Crossroads course assignment project, including both a daytime and a night-time scene. 
-The project uses a WebGL library, three.js.
-
 # A 3D Crossroads Application
 3D Crossroads course assignment project, including both a daytime and a night-time scene. 
 The project uses a WebGL library, three.js. 
@@ -12,6 +8,6 @@ View **live project** here: https://3d-crossroads.netlify.app/
 
 
 ## How The App Was Made
-Tech stack used: JavaScript, HTML, CSS
+Tech stack used: JavaScript, HTML, CSS, Threejs
 
 ## Lessons Learned
