@@ -11,3 +11,4 @@ View **live project** here: https://3d-crossroads.netlify.app/
 Tech stack used: JavaScript, HTML, CSS, Threejs
 
 ## Lessons Learned
+- working with JavaScript and Threejs for the first time.
